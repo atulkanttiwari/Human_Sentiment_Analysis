@@ -1,20 +1,36 @@
-name: Sync to Hugging Face hub
+name: Upload to HuggingFace Repo
+
 on:
   push:
-    branches: [main]
-
-  # to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
-  sync-to-hub:
+  upload:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          lfs: true
-      - name: Push to hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push --force https://atulkant:$HF_TOKEN@huggingface.co/spaces/atulkant/Human_Sentiment_Analysis main
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true        # IMPORTANT! download + upload LFS files
+
+    - name: Install git-lfs
+      run: |
+        sudo apt-get update
+        sudo apt-get install git-lfs
+        git lfs install
+
+    - name: Push to HuggingFace Repo
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "GitHub Actions"
+
+        git clone https://$HF_TOKEN@huggingface.co/atulkant/Human_Sentiment_Analysis hf_repo
+
+        cp -r * hf_repo/
+
+        cd hf_repo
+        git add .
+        git commit -m "Update model files"
+        
+        git push origin main
