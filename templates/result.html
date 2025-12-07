@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <main class="container result">
+      <h1>Prediction Result</h1>
+      {% if error %}
+        <p class="error">Error: {{ error }}</p>
+      {% else %}
+        <p><strong>Input:</strong> {{ text }}</p>
+        <p><strong>Prediction:</strong> <span class="prediction">{{ prediction }}</span></p>
+        {% if probability is not none %}
+          <p><strong>Positive probability:</strong> {{ '%.3f'|format(probability) }}</p>
+        {% endif %}
+      {% endif %}
+      <p><a class="btn" href="/">Try another</a></p>
+    </main>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

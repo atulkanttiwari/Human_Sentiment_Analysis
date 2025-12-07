@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sentiment Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Human Sentiment Analysis</h1>
+      <form id="predict-form" method="post" action="/predict">
+        <label for="text">Enter text:</label><br>
+        <textarea id="text" name="text" rows="6" cols="60" placeholder="Type a tweet or sentence..."></textarea><br>
+        <button type="submit" id="predict-btn">Predict</button>
+      </form>
+      <div id="message" role="status" aria-live="polite"></div>
+    </main>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
